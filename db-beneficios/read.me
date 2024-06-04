@@ -1,0 +1,27 @@
+Tabela : tb_beneficio
+Descrição : planilha encaminhada pela empresa SeuBeneficio.com contendo informações autorizadas pelas empresas para compartilhamento.
+Colunas:
+codigo_funcionario : codigo interno da plataforma da SeuBeneficio.com para cada beneficiario
+    tipo do dado	int		
+email_funcionario : e-mail do cliente beneficiario
+    tipo do dado	varchar(200)			
+codigo_beneficio : codigo do tipo do beneficio 1- Vale Refeição e 2- Vale Alimentação, os clientes beneficiários só podem ter um ou outro.
+    tipo do dado    int			
+codigo_empresa	: codigo da empresa do sistema interno da SeuBeneficio.com.
+    tipo do dado    int			
+tipo_beneficio	: codigo do tipo do beneficio 1- Vale Refeição e 2- Vale Alimentação, os clientes beneficiários só podem ter um ou outro.
+    tipo do dado    varchar(45)			
+valor_beneficio	: valor total disponibilizado mensalmente.
+    tipo do dado    varchar(45)			
+
+
+Tabela : tb_empresa
+Descrição : planilha encaminhada pela empresa SeuBeneficio.com contendo informações autorizadas pelas empresas para compartilhamento.
+Colunas:
+codigo_empresa	:   codigo da empresa do sistema interno da SeuBeneficio.com.
+    tipo do dado int		
+nome_empresa	:   nome da empresa cliente cadastrado no sistema interno da SeuBeneficio.com.
+    tipo do dado    varchar(500)			
+uf_sede_empresa	:   unidade federativa da sede da empresa cliente da SeuBeneficio.com.
+    tipo do dado    varchar(2)			
+
