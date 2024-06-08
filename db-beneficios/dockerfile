@@ -1,0 +1,8 @@
+
+FROM mysql:latest
+
+# Copia o arquivo SQL para dentro do contêiner
+COPY ./db-beneficios_ModeloFisico.sql /docker-entrypoint-initdb.d/db-beneficios_ModeloFisico.sql
+
+ENV MYSQL_ROOT_PASSWORD=root
+ENV MYSQL_DATABASE=db_beneficios

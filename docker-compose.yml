@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  mysql:
+    build: 
+      context: ./db-beneficios
+      dockerfile: Dockerfile
+    container_name: mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 'root'
+      MYSQL_DATABASE: 'db_beneficios'
+    ports:
+      - 3307:3306
+    volumes:
+      - ./db-beneficios/db-beneficios_ModeloFisico.sql:/docker-entrypoint-initdb.d/db-beneficios_ModeloFisico.sql
+
+  import_data:
+    build: ./scripts
+    command: python3 ./import_data.py
+    depends_on:
+      - mysql
