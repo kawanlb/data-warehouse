@@ -1,5 +1,5 @@
 CREATE DATABASE db_beneficios;
-USE db_benficios;
+USE db_beneficios;
 
 CREATE TABLE tb_empresa (
     codigo_empresa INT PRIMARY KEY,
