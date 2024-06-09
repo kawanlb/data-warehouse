@@ -3,11 +3,26 @@ import pandas as pd
 
 def connect_to_mysql():
     return mysql.connector.connect(
-        host='mysql',
+        host='localhost',
+        port='3306',
         user='root',
         password='root',
         database='db_beneficios'
     )
+
+# Exemplo de como usar a conexão
+try:
+    connection = connect_to_mysql()
+    if connection.is_connected():
+        print("Conexão ao MySQL bem-sucedida!")
+        # Faça as operações desejadas com o banco de dados aqui
+    else:
+        print("Falha ao conectar ao MySQL!")
+except mysql.connector.Error as err:
+    print(f"Erro ao conectar ao MySQL: {err}")
+finally:
+    if 'connection' in locals() and connection.is_connected():
+        connection.close()
 
 def import_csv_to_mysql(csv_file, table_name):
     df = pd.read_csv(csv_file, sep=';', encoding='utf-8')
@@ -31,5 +46,5 @@ def import_csv_to_mysql(csv_file, table_name):
     connection.commit()
     connection.close()
 
-import_csv_to_mysql('./tb_beneficio.csv', 'TB_BENEFICIO')
-import_csv_to_mysql('./tb_empresa.csv', 'TB_EMPRESA')
+import_csv_to_mysql('./tb_empresa.csv', 'tb_empresa')
+import_csv_to_mysql('./tb_beneficio.csv', 'tb_beneficio')
