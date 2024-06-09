@@ -1,0 +1,17 @@
+ordem de inserção via python:
+
+1 > python import_empresa_beneficio_to_dw.py
+2 > python import_cliente_to_dw.py
+3 > python import_tempo_to_dw.py
+4 > python import_mesa_to_dw.py
+5 > python import_situacao_pedido_to_dw.py
+6 > python import_tipo_prato_to_dw.py
+7 > python import_prato_to_dw.py
+8 > python import_pedido_to_dw.py
+
+
+ou rode
+
+python run_all.py
+
+(roda todos os arquivos em sequencia)

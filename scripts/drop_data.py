@@ -1,22 +1,15 @@
 import mysql.connector
-
-config = {
-    'host': 'localhost',
-    'port': '3306',
-    'user': 'root',
-    'password': 'root',
-    'database': 'dw_restaurante'
-}
-
-def connect_to_mysql():
-    return mysql.connector.connect(**config)
+from dw_config import connect_to_dw 
 
 def reset_tables():
-    connection = connect_to_mysql()
+    connection = connect_to_dw()  
+    if not connection:
+        return
+    
     cursor = connection.cursor()
     
-    # Listar todas as tabelas que precisam ser limpas e resetadas
-    tables = ['dim_cliente']
+    # listar todas as tabelas que precisam ser limpas e resetadas
+    tables = ['dim_tempo','dim_cliente','dim_empresa','dim_beneficio','dim_situacao_pedido','dim_mesa','dim_prato','dim_tipo_prato','fato_pedido']
     
     for table in tables:
         try:
@@ -25,6 +18,7 @@ def reset_tables():
             
             # Resetar o auto increment
             cursor.execute(f"ALTER TABLE {table} AUTO_INCREMENT = 1")
+            print(f"Tabela {table} limpa e ID resetado.")
         except mysql.connector.Error as err:
             print(f"Erro MySQL ao limpar a tabela {table}: {err}")
     
@@ -34,3 +28,4 @@ def reset_tables():
 reset_tables()
 
 print("Todas as tabelas foram limpas e os IDs foram resetados.")
+#necessario rodar o script mais de uma vez para fazer a limpeza completa

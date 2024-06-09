@@ -1,23 +1,15 @@
 import mysql.connector
 import pandas as pd
+from dw_config import connect_to_dw 
 
-# Configurações de conexão com o banco de dados
-config = {
-    'host': 'localhost',
-    'port': '3306',
-    'user': 'root',
-    'password': 'root',
-    'database': 'dw_restaurante'
-}
-
-def connect_to_mysql():
-    return mysql.connector.connect(**config)
-
-def import_clientes_with_funcionario(csv_file, table_name):
+def import_csv_to_mysql(csv_file, table_name):
     df = pd.read_csv(csv_file, sep=',', encoding='utf-8')
     df.fillna('', inplace=True)
 
-    connection = connect_to_mysql()
+    connection = connect_to_dw()
+    if not connection:
+        return
+    
     cursor = connection.cursor()
 
     for _, row in df.iterrows():
@@ -35,6 +27,9 @@ def import_clientes_with_funcionario(csv_file, table_name):
             codigo_funcionario = None
             email_funcionario = ''
         
+        #essa logica e necessaria para caso exista cliente que nao seja funcionario.
+        #comparamdo os email posso verificar se ele e funcionario ou nao
+        
         # define os valores para a inserção na tabela dim_cliente
         values = (
             row['id_cliente'],
@@ -49,10 +44,11 @@ def import_clientes_with_funcionario(csv_file, table_name):
         try:
             # executar a consulta sql
             cursor.execute(sql, values)
+            print(f"Inserido na tabela {table_name}: {values}")
         except mysql.connector.Error as err:
             print(f"Erro MySQL: {err}")
 
     connection.commit()
     connection.close()
 
-import_clientes_with_funcionario('../data_to_warehouse/cliente.csv', 'dim_cliente')
+import_csv_to_mysql('../data_to_warehouse/cliente.csv', 'dim_cliente')
