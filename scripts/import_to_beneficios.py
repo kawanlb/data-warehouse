@@ -13,7 +13,7 @@ def import_csv_to_mysql(csv_file, table_name):
         sql = f"INSERT INTO {table_name} VALUES ({','.join(map(repr, cleaned_row))})"
         try:
             cursor.execute(sql)
-        except mysql.connector.Error as err:
+        except connect_to_mysql.Error as err:
             print(f"Erro MySQL: {err}")
 
     connection.commit()
