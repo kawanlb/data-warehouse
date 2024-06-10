@@ -12,9 +12,7 @@ def import_csv_to_mysql(csv_file, table_name):
     
     cursor = connection.cursor()
 
-    # iterar sobre as linhas do DataFrame e inserir os dados na tabela dim_tempo
     for index, row in df.iterrows():
-        # extrair a data e hora da linha atual
         datetime = str(row['data_hora_entrada'])  # Data e hora no formato 'YYYY-MM-DD HH:MM:SS'
 
         date, time = datetime.split()  # dividir a data e hora

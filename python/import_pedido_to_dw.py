@@ -1,10 +1,8 @@
 import mysql.connector
 import pandas as pd
 from dw_config import connect_to_dw 
-import mysql.connector 
 
 def import_csv_to_mysql(prato_file, pedido_file, table_name):
-    # Carregar o arquivo CSV do prato para obter o preco_unitario_prato
     df_prato = pd.read_csv(prato_file)
     df_prato.fillna('', inplace=True) 
     prato_dict = df_prato.set_index('codigo_prato')['preco_unitario_prato'].to_dict()
@@ -24,7 +22,7 @@ def import_csv_to_mysql(prato_file, pedido_file, table_name):
         quantidade_pedido = int(row['quantidade_pedido'])
         codigo_situacao_pedido = int(row['codigo_situacao_pedido'])
 
-        # Obter o preco_unitario_prato do dicionário prato_dict
+        # obter o preco_unitario_prato do dicionário prato_dict
         preco_unitario_prato = prato_dict.get(codigo_prato, 0)
 
         # calculo do preco_total_pedido 
