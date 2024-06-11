@@ -2,12 +2,6 @@
 
 Este projeto foi clonado do repositorio: [Datawarehouse101](https://gitlab.com/lipe.nscm/datawarehouse101). Ele serve como um trabalho para a cadeira de Database Application na Uninassau.
 
-## 🚀 Começando
-
-Essas instruções permitirão que você obtenha uma cópia do projeto em operação na sua máquina local para fins de desenvolvimento e teste.
-
-Consulte **[Implantação](#-implanta%C3%A7%C3%A3o)** para saber como implantar o projeto.
-
 ### 📋 Pré-requisitos
 Clone do https://gitlab.com/lipe.nscm/datawarehouse101.
 
