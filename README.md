@@ -1,93 +1,136 @@
-# datawarehouse101
+# Modelagem Dimensional
+
+Este projeto foi clonado do repositorio: [Datawarehouse101](https://gitlab.com/lipe.nscm/datawarehouse101). Ele serve como um trabalho para a cadeira de Database Application na Uninassau.
+
+## 🚀 Começando
+
+Essas instruções permitirão que você obtenha uma cópia do projeto em operação na sua máquina local para fins de desenvolvimento e teste.
+
+Consulte **[Implantação](#-implanta%C3%A7%C3%A3o)** para saber como implantar o projeto.
+
+### 📋 Pré-requisitos
+Clone do https://gitlab.com/lipe.nscm/datawarehouse101.
+
+Python, python-pandas, python-mysql-connector
+
+mysql_workbench
+
+## 🎯 Visão Geral
+
+O projeto tem como objetivo criar um Datawarehouse para um restaurante, implementando os dados de empresas, seus funcionarios e seus respectivos benefícios, sem modificar o banco de dados principal. 
+Um Datawarehouse organiza e armazena dados de maneira estruturada, facilitando a consulta e a análise de grandes volumes de informações.
+
+## 🎲 Bancos de Dados Estruturados
+
+Aqui está a explicação das tabelas do banco de dados `db_restaurante`, `db_beneficios` e por ultimo o warehouse `dw_restaurante`
+
+### `db_restaurante`
+
+### Tabelas
+
+- **`tb_cliente`**: Informações dos clientes, incluindo CPF, nome, email e telefone.
+- **`tb_mesa`**: Detalhes das mesas, como cliente associado, número de pessoas, horários de entrada e saída.
+- **`tb_tipo_prato`**: Tipos de pratos oferecidos pelo restaurante.
+- **`tb_situacao_pedido`**: Status dos pedidos (e.g., pendente, concluído).
+- **`tb_prato`**: Informações sobre os pratos, incluindo nome, tipo e preço.
+- **`tb_pedido`**: Pedidos, incluindo mesa, prato, quantidade e situação do pedido.
+
+### `db_beneficios`
+
+### Tabelas
+
+- **`tb_empresa`**: Informações sobre as empresas, incluindo código, nome e UF da sede.
+- **`tb_beneficio`**: Benefícios dos funcionários, incluindo código do funcionário, email, código do benefício, empresa associada, tipo e valor do benefício.
+
+### `dw_restaurante`
+
+### Tabelas Dimensionais
+
+- **`dim_empresa`**: Armazena informações das empresas, incluindo código e nome.
+- **`dim_beneficio`**: Registra benefícios dos funcionários, incluindo código do funcionário, email, valor do benefício e empresa associada.
+- **`dim_cliente`**: Contém informações dos clientes, incluindo código, nome, email e referência ao funcionário associado.
+- **`dim_tempo`**: Detalha dimensões de tempo, incluindo data, ano, mês, dia, hora, minuto e segundo.
+- **`dim_mesa`**: Armazena informações das mesas, como código, número de pessoas, cliente associado e referência à dimensão de tempo.
+- **`dim_tipo_prato`**: Contém os tipos de pratos oferecidos pelo restaurante.
+- **`dim_prato`**: Registra detalhes dos pratos, incluindo código, nome, preço unitário e tipo de prato.
+- **`dim_situacao_pedido`**: Armazena os possíveis status dos pedidos (e.g., pendente, concluído).
+
+### Tabela Fato
+
+- **`fato_pedido`**: Registra os pedidos feitos, incluindo preço unitário, preço total, quantidade, mesa associada, situação do pedido e prato pedido.
+
+---
+
+Estas tabelas foram projetadas para organizar eficientemente os dados relacionados a clientes, mesas, tipos de pratos, pratos, situações de pedidos, pedidos no restaurante, empresas, benefícios dos funcionários e informações dimensionais em um Datawarehouse. Isso facilita a consulta e análise dos dados do restaurante.
+
+### Modelo db_restaurante
+![image](https://github.com/kawanlb/data-warehouse/assets/144124952/76a1968d-7846-4432-bede-05b191355ca3)
+
+### Modelo db_beneficios
+![image](https://github.com/kawanlb/data-warehouse/assets/144124952/5412966b-5fe8-4eba-89e9-5c93bf46d490)
+
+### Modelo Snowflake
+![image](https://github.com/kawanlb/data-warehouse/assets/144124952/347a7b2e-f06f-4497-ac43-1a3eaee49b70)
 
 
 
-## Getting started
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+---
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+## ⚡Validação de Dados
 
-## Add your files
+Antes de criar o `dw_restaurante`, é necessário inserir os dados do CSV no banco `db_beneficios`. O script responsável por essa tarefa é `/python/import_to_db_beneficios.py`.
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+### Inserção de Dados para o Warehouse
 
-```
-cd existing_repo
-git remote add origin https://gitlab.com/lipe.nscm/datawarehouse101.git
-git branch -M main
-git push -uf origin main
-```
+Os dados para o Data Warehouse foram manipulados de duas formas:
 
-## Integrate with your tools
+#### Forma 1 (Mais Complicada)
 
-- [ ] [Set up project integrations](https://gitlab.com/lipe.nscm/datawarehouse101/-/settings/integrations)
+Após criar o `db_beneficios`, é necessário inserir os dados do CSV no banco usando o script `/python/import_to_db_beneficios.py`.
 
-## Collaborate with your team
+Utilizando o modelo Snowflake, que foi criado a partir da análise dos bancos `db_restaurante` e `db_beneficios`, foram selecionados os dados necessários para o Data Warehouse `dw_restaurante`.
 
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
+Os scripts na pasta `/data_to_warehouse/extraction_in_sql_to_csv/` selecionam os dados a serem extraídos de cada tabela e os salvam como CSVs na pasta `/data_to_warehouse`.
 
-## Test and Deploy
+Os dados extraídos já estão normalizados e limpos, restando apenas a inserção no `dw_restaurante`.
 
-Use the built-in continuous integration in GitLab.
+Na pasta `/python`, há scripts `.py` para inserção de CSVs em tabelas SQL, um script de conexão com o banco, o script `run_all.py` que executa todos os scripts de inserção no DW em sequência, e o script mencionado para popular o `db_beneficios`.
 
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing (SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
+Com esses scripts Python, o Data Warehouse estará populado e pronto para consultas, com os dados armazenados em CSVs.
 
-***
+#### Forma 2 (Mais Fácil)
 
-# Editing this README
+Com os bancos de dados `db_beneficio` e `db_restaurante` populados no MySQL Workbench, alguns scripts SQL são executados para enviar os dados dos bancos para o Warehouse.
 
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thanks to [makeareadme.com](https://www.makeareadme.com/) for this template.
+Todos os códigos SQL estão na pasta `/import_data_to_dw_in_sql`.
 
-## Suggestions for a good README
+Executando esses scripts SQL, os dados serão transferidos dos bancos de origem para o Data Warehouse.
 
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
+---
 
-## Name
-Choose a self-explaining name for your project.
+## 🔎 Queries Solicitadas
 
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
+todas queries estão em /dw_restaurante/consultas_solicitadas.sql
 
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
+### Consultas SQL
 
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
+1. **Cliente com Mais Pedidos por Ano**
+   - Esta consulta retorna o cliente que fez o maior número de pedidos em cada ano.
 
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
+2. **Cliente que Mais Gastou em Todos os Anos**
+   - Retorna o cliente que gastou mais em pedidos em todos os anos.
 
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
+3. **Cliente(s) que Trouxe(ram) Mais Pessoas por Ano**
+   - Identifica o(s) cliente(s) que trouxeram o maior número de pessoas por ano.
 
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
+4. **Empresa com Mais Funcionários como Clientes**
+   - Retorna a empresa que possui o maior número de funcionários como clientes do restaurante.
 
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
+5. **Empresa com Mais Funcionários que Consomem Sobremesas por Ano**
+   - Identifica a empresa que possui o maior número de funcionários que consomem sobremesas no restaurante em cada ano.
 
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
+---
 
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
+Essas consultas são úteis para análises específicas sobre o comportamento dos clientes e empresas relacionadas ao restaurante ao longo do tempo.
 
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
